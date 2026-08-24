@@ -1,0 +1,16 @@
+services:
+  vpn-manager:
+    build: .
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - ./data:/data
+    environment:
+      ADMIN_TOKEN: ${ADMIN_TOKEN:?Set ADMIN_TOKEN in .env}
+      WG_PRIVATE_KEY: ${WG_PRIVATE_KEY:?Set WG_PRIVATE_KEY in .env}
+      WG_PUBLIC_ENDPOINT: ${WG_PUBLIC_ENDPOINT:?Set WG_PUBLIC_ENDPOINT in .env}
+      WG_PORT: ${WG_PORT:-51820}
+      VPN_SUBNET: ${VPN_SUBNET:-10.88.0.0/24}
+      VPN_SERVER_ADDRESS: ${VPN_SERVER_ADDRESS:-10.88.0.1/24}
+    restart: unless-stopped
